@@ -55,7 +55,7 @@ app.controller("home", ['$scope', '$log', '$http', '$location', '$timeout', '$md
                 data: $scope.invocation.request,
                 method: "POST",
                 headers: { "Content-Type": requestContentType },
-                responseType: $scope.invocation.contentType
+                responseType: $scope.invocation.contentType == "binary" ? "arraybuffer" : $scope.invocation.contentType
             };
             
             $scope.invocationInProgress = true;
