@@ -69,7 +69,7 @@ app.controller("home", ['$scope', '$log', '$http', '$location', '$timeout', '$md
                     console.log(headers());
 
                     if($scope.invocation.contentType == "binary") {
-                        $scope.invocationResponse = "Bytes received: "+ data.length;
+                        $scope.invocationResponse = "Bytes received: "+ headers()["content-length"];
 
                         var linkElement = document.createElement('a');
                         try {
@@ -92,16 +92,15 @@ app.controller("home", ['$scope', '$log', '$http', '$location', '$timeout', '$md
                         }
 
                     } else {
-                        var response = {"data": data};
-                        if (typeof response.data == 'object') {
-                            $scope.invocationResponse = JSON.stringify(response.data, null, 2);
+                        if (typeof data == 'object') {
+                            $scope.invocationResponse = JSON.stringify(data, null, 2);
                         } else {
-                            $scope.invocationResponse = response.data;
+                            $scope.invocationResponse = data;
                         }
                     }
 
                     $scope.invocationInProgress = false;
-                    $scope.invocationStatus = response.status;
+                    $scope.invocationStatus = status;
                     var now = new Date().getTime();
                     $scope.roundTripDuration = (now - $scope.invocationStart) / 1000;
                     showPostInvokedToast("Success");
